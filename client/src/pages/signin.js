@@ -1,85 +1,62 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { FirebaseContext } from '../context/firebase';
 import { Form } from '../components';
 import { HeaderContainer } from '../containers/header';
 import { FooterContainer } from '../containers/footer';
-import * as ROUTES from '../constants/routes';
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function SignIn() {
-  const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
+  const { loginUser } = useContext(AuthContext);
 
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
+  const [loginForm, setLoginForm] = useState({
+    username: '',
+    password: '',
+  });
+
+  const onChangeLoginForm = (event) =>
+    setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
+
+  const { username, password } = loginForm;
   const [error, setError] = useState('');
 
-  const handleSignin = (event) => {
+  const handleSignin = async (event) => {
     event.preventDefault();
-
-    return firebase
-      .auth()
-      .signInWithEmailAndPassword(emailAddress, password)
-      .then(() => {
-        history.push(ROUTES.BROWSE);
-      })
-      .catch((error) => {
-        setEmailAddress('');
-        setPassword('');
-        setError(error.message);
-      });
+    try {
+      const loginData = await loginUser(loginForm);
+      if (!loginData.success) setError(loginData.message);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  function emailValidated(value) {
-    var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    return regex.test(value) || value.charAt(0) === '0'
-      ? undefined
-      : 'Vui lòng nhập email hoặc số điện thoại hợp lệ.';
-  }
-
-  function passWordValidated(value) {
-    return value.length >= 4 && value.length <= 60
-      ? undefined
-      : 'Mật khẩu của bạn phải chứa từ 4 đến 60 ký tự.';
-  }
-
-  var id = emailValidated(emailAddress);
-  var pw = passWordValidated(password);
-  const isInvalid = id !== undefined || pw !== undefined;
-
   return (
     <>
       <HeaderContainer>
         <Form>
           <Form.Title>Đăng nhập</Form.Title>
-          {error && <Form.Error data-testid="error">{error}</Form.Error>}
+          {error !== '' && <Form.Error data-testid="error">{error}</Form.Error>}
 
-          <Form.Base onSubmit={handleSignin} method="POST">
+          <Form.Base onSubmit={handleSignin}>
             <Form.WrapInput>
               <Form.Input
+                type="text"
                 placeholder="Địa chỉ email"
-                value={emailAddress}
-                onChange={({ target }) => setEmailAddress(target.value)}
+                name="username"
+                required
+                value={username}
+                onChange={onChangeLoginForm}
               />
-              {id !== undefined && emailAddress !== '' ? (
-                <Form.InputError>{id}</Form.InputError>
-              ) : null}
             </Form.WrapInput>
             <Form.WrapInput>
               <Form.Input
                 type="password"
                 value={password}
+                name="password"
                 autoComplete="off"
                 placeholder="Mật khẩu"
-                onChange={({ target }) => setPassword(target.value)}
+                onChange={onChangeLoginForm}
               />
-              {pw !== undefined && password !== '' ? (
-                <Form.InputError>{pw}</Form.InputError>
-              ) : null}
             </Form.WrapInput>
 
             <Form.Submit
-              disabled={isInvalid}
               type="submit"
               data-testid="sign-in"
             >
@@ -88,7 +65,7 @@ export default function SignIn() {
           </Form.Base>
           <Form.LoginHelp>
             <Form.RememberMe>
-              <Form.Checkbox/>
+              <Form.Checkbox />
               <Form.LabelCheckbox>
                 <Form.LabelCheckboxText>Ghi nhớ tôi</Form.LabelCheckboxText>
               </Form.LabelCheckbox>

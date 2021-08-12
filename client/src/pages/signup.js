@@ -1,101 +1,85 @@
 import React, { useState, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { FirebaseContext } from '../context/firebase';
 import { Form } from '../components';
 import { HeaderContainer } from '../containers/header';
 import { FooterContainer } from '../containers/footer';
-import * as ROUTES from '../constants/routes';
+import { AuthContext } from '../contexts/AuthContext';
 
 export default function SignUp() {
-  const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
-
-  const [firstName, setFirstName] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
+  const { registerUser } = useContext(AuthContext);
   const [error, setError] = useState('');
+  const [registerForm, setRegisterForm] = useState({
+    username: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-  const handleSignup = (event) => {
+  const { username, password, confirmPassword } = registerForm;
+
+  const onChangeRegisterForm = (event) =>
+    setRegisterForm({
+      ...registerForm,
+      [event.target.name]: event.target.value,
+    });
+
+  const handleSignup = async (event) => {
     event.preventDefault();
 
-    return firebase
-      .auth()
-      .createUserWithEmailAndPassword(emailAddress, password)
-      .then((result) =>
-        result.user
-          .updateProfile({
-            displayName: firstName,
-            photoURL: Math.floor(Math.random() * 5) + 1,
-          })
-          .then(() => {
-            history.push(ROUTES.BROWSE);
-          })
-      )
-      .catch((error) => {
-        setFirstName('');
-        setEmailAddress('');
-        setPassword('');
-        setError(error.message);
-      });
+    if (password !== confirmPassword) {
+      setError('Password does not match');
+      return;
+    }
+
+    try {
+      const registerData = await registerUser(registerForm);
+      if (!registerData.success) {
+        setError(registerData.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  function emailValidated(value) {
-    var regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    return regex.test(value) || value.charAt(0) === '0'
-      ? undefined
-      : 'Vui lòng nhập email hoặc số điện thoại hợp lệ.';
-  }
-
-  function passWordValidated(value) {
-    return value.length >= 4 && value.length <= 60
-      ? undefined
-      : 'Mật khẩu của bạn phải chứa từ 4 đến 60 ký tự.';
-  }
-
-  var id = emailValidated(emailAddress);
-  var pw = passWordValidated(password);
-  const isInvalid = id !== undefined || pw !== undefined;
-
   return (
     <>
       <HeaderContainer>
         <Form>
           <Form.Title>Đăng ký</Form.Title>
-          {error && <Form.Error>{error}</Form.Error>}
+          {error !== '' && <Form.Error>{error}</Form.Error>}
 
-          <Form.Base onSubmit={handleSignup} method="POST">
+          <Form.Base onSubmit={handleSignup}>
             <Form.Input
               placeholder="Tên"
-              value={firstName}
-              onChange={({ target }) => setFirstName(target.value)}
+              name="displayName"
+              onChange={onChangeRegisterForm}
             />
             <Form.WrapInput>
               <Form.Input
                 placeholder="Địa chỉ email"
-                value={emailAddress}
-                onChange={({ target }) => setEmailAddress(target.value)}
+                value={username}
+                name="username"
+                onChange={onChangeRegisterForm}
               />
-              {id !== undefined && emailAddress !== '' ? (
-                <Form.InputError>{id}</Form.InputError>
-              ) : null}
             </Form.WrapInput>
             <Form.WrapInput>
               <Form.Input
                 type="password"
                 value={password}
+                name="password"
                 autoComplete="off"
                 placeholder="Mật khẩu"
-                onChange={({ target }) => setPassword(target.value)}
+                onChange={onChangeRegisterForm}
               />
-              {pw !== undefined && password !== '' ? (
-                <Form.InputError>{pw}</Form.InputError>
-              ) : null}
             </Form.WrapInput>
-            <Form.Submit
-              disabled={isInvalid}
-              type="submit"
-              data-testid="sign-up"
-            >
+            <Form.WrapInput>
+              <Form.Input
+                type="password"
+                value={confirmPassword}
+                name="confirmPassword"
+                autoComplete="off"
+                placeholder="Mật khẩu"
+                onChange={onChangeRegisterForm}
+              />
+            </Form.WrapInput>
+            <Form.Submit type="submit" data-testid="sign-up">
               Đăng ký
             </Form.Submit>
           </Form.Base>

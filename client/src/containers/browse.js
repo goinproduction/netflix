@@ -6,6 +6,7 @@ import logo from '../logo.svg';
 import { FirebaseContext } from '../context/firebase';
 import { SelectProfileContainer } from './profiles';
 import { FooterContainer } from './footer';
+import { AuthContext } from '../contexts/AuthContext';
 
 export function BrowseContainer({ slides }) {
   const [category, setCategory] = useState('series');
@@ -126,6 +127,6 @@ export function BrowseContainer({ slides }) {
       <FooterContainer />
     </>
   ) : (
-    <SelectProfileContainer user={user} setProfile={setProfile} />
+    <SelectProfileContainer setProfile={setProfile} />
   );
 }

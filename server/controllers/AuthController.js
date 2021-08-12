@@ -108,7 +108,7 @@ class AuthController {
             );
             res.json({
                 success: true,
-                message: 'Login successfully',
+                message: 'User logged in successfully',
                 accessToken,
             });
         } catch (error) {

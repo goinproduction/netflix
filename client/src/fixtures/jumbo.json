@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "Xem ở mọi nơi.",
+    "subTitle": "Phát trực tuyến không giới hạn phim và chương trình truyền hình trên điện thoại, máy tính bảng, máy tính xách tay và TV.",
+    "image": "/images/misc/home-imac.jpg",
+    "alt": "Money Heist on Netflix",
+    "direction": "row"
+  },
+  {
+    "id": 2,
+    "title": "Tạo hồ sơ cho trẻ em.",
+    "subTitle": "Đưa các em vào những cuộc phiêu lưu với nhân vật được yêu thích trong một không gian riêng. Tính năng này đi kèm miễn phí với tư cách thành viên của bạn.",
+    "image": "/images/misc/child.png",
+    "alt": "Children",
+    "direction": "row-reverse"
+  }
+]

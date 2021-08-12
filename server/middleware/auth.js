@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
     if (!token) {
         return res.status(401).json({
             success: false,
-            message: 'Invalid access token',
+            message: 'Access token not found',
         });
     }
 
@@ -19,7 +19,7 @@ const verifyToken = (req, res, next) => {
         console.log(error);
         return res
             .status(403)
-            .json({ success: false, message: 'Invalid access token' });
+            .json({ success: false, message: 'Invalid token' });
     }
 };
 

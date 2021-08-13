@@ -6,7 +6,7 @@ class FilmController {
     // @access public
     async getSeries(req, res) {
         try {
-            const series = await Film.find({ genre: 'series' });
+            const series = await Film.find({ type: 'series' });
             res.json({ success: true, series });
         } catch (error) {
             console.log(error);
@@ -22,7 +22,7 @@ class FilmController {
     // @access public
     async getFilms(req, res) {
         try {
-            const films = await Film.find({ genre: 'films' });
+            const films = await Film.find({ type: 'films' });
             res.json({ success: true, films });
         } catch (error) {
             console.log(error);
@@ -77,6 +77,7 @@ class FilmController {
                 genre,
                 maturity,
                 slug,
+                type,
             });
             await newFilm.save();
 

@@ -27,7 +27,7 @@ class AuthController {
     // @access public
     async register(req, res) {
         const { username, password } = req.body;
-
+        const photoURL = Math.floor(Math.random() * 5) + 1;
         // Simple validation
         if (!username || !password) {
             return res.status(400).json({
@@ -47,7 +47,11 @@ class AuthController {
 
             // All good
             const hashedPassword = await argon2.hash(password);
-            const newUser = new User({ username, password: hashedPassword });
+            const newUser = new User({
+                username,
+                password: hashedPassword,
+                photoURL,
+            });
             await newUser.save();
 
             // Return token

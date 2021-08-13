@@ -8,7 +8,6 @@ const FilmSchema = new Schema({
     },
     description: {
         type: String,
-        required: true,
     },
     genre: {
         type: String,
@@ -18,11 +17,11 @@ const FilmSchema = new Schema({
         type: String,
         required: true,
     },
-    slug: {
+    type: {
         type: String,
         required: true,
     },
-    type: {
+    slug: {
         type: String,
         required: true,
     },

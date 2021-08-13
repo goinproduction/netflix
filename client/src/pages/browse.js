@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BrowseContainer } from '../containers/browse';
-import { useContent } from '../hooks';
 import { selectionFilter } from '../utils';
-
+import { FilmContext } from '../contexts/FilmContext';
 export default function Browse() {
-  const { series } = useContent('series');
-  const { films } = useContent('films');
+  const {
+    filmState: { series, films },
+    getFilms,
+    getSeries,
+  } = useContext(FilmContext);
+
+  useEffect(() => {
+    getFilms();
+    getSeries();
+  }, []);
+
   const slides = selectionFilter({ series, films });
   return <BrowseContainer slides={slides} />;
 }

@@ -11,6 +11,9 @@ const UserSchema = new Schema({
         type: String,
         required: true,
     },
+    photoURL: {
+        type: String,
+    },
     createdAt: {
         type: Date,
         default: Date.now(),

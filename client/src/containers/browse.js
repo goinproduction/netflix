@@ -3,7 +3,6 @@ import Fuse from 'fuse.js';
 import { Card, Header, Loading, Player } from '../components';
 import * as ROUTES from '../constants/routes';
 import logo from '../logo.svg';
-import { FirebaseContext } from '../context/firebase';
 import { SelectProfileContainer } from './profiles';
 import { FooterContainer } from './footer';
 import { AuthContext } from '../contexts/AuthContext';
@@ -14,15 +13,17 @@ export function BrowseContainer({ slides }) {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [slideRows, setSlideRows] = useState([]);
-
-  const { firebase } = useContext(FirebaseContext);
-  const user = firebase.auth().currentUser || {};
-
+  const {
+    authState: {
+      user: { username, photoURL },
+    },
+    logoutUser,
+  } = useContext(AuthContext);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 3000);
-  }, [profile.displayName]);
+  }, [username]);
 
   useEffect(() => {
     setSlideRows(slides[category]);
@@ -32,7 +33,7 @@ export function BrowseContainer({ slides }) {
     const fuse = new Fuse(slideRows, {
       keys: ['data.description', 'data.title', 'data.genre'],
     });
-    const results = fuse.search(searchTerm).map(({ item }) => item);
+    const results = fuse.search(searchTerm).map((item) => item);
 
     if (slideRows.length > 0 && searchTerm.length > 3 && results.length > 0) {
       setSlideRows(results);
@@ -40,10 +41,9 @@ export function BrowseContainer({ slides }) {
       setSlideRows(slides[category]);
     }
   }, [searchTerm]);
-
-  return profile.displayName ? (
+  return username ? (
     <>
-      {loading ? <Loading src={user.photoURL} /> : <Loading.ReleaseBody />}
+      {loading ? <Loading src={photoURL} /> : <Loading.ReleaseBody />}
 
       <Header src="joker1" dontShowOnSmallViewPort>
         <Header.Frame>
@@ -68,14 +68,14 @@ export function BrowseContainer({ slides }) {
               setSearchTerm={setSearchTerm}
             />
             <Header.Profile>
-              <Header.Picture src={user.photoURL} />
+              <Header.Picture src={photoURL} />
               <Header.Dropdown>
                 <Header.Group>
-                  <Header.Picture src={user.photoURL} />
-                  <Header.TextLink>{user.displayName}</Header.TextLink>
+                  <Header.Picture src={photoURL} />
+                  <Header.TextLink>{username}</Header.TextLink>
                 </Header.Group>
                 <Header.Group>
-                  <Header.TextLink onClick={() => firebase.auth().signOut()}>
+                  <Header.TextLink onClick={() => logoutUser()}>
                     Đăng xuất
                   </Header.TextLink>
                 </Header.Group>

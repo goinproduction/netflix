@@ -9,7 +9,6 @@ export const AuthContext = createContext();
 
 const AuthContextProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, {
-    authLoading: true,
     isAuthenticated: false,
     user: null,
   });
@@ -43,7 +42,10 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => loadUser(), []);
+  useEffect(() => {
+    loadUser();
+    return () => {};
+  }, []);
 
   // Login
   const loginUser = async (userForm) => {

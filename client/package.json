@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.1",
+    "bootstrap": "^5.1.0",
     "firebase": "^7.24.0",
     "fuse.js": "^6.4.1",
     "normalize.css": "^8.0.1",

@@ -25,12 +25,14 @@ POST http://localhost:5000/api/film/create
 Content-Type: application/json
 
 {
-    "title": "Amanda Knox",
-    "description": "Amanda Marie Knox is an American woman who spent almost four years in an Italian prison.",
-    "genre": "documentaries",
-    "maturity": "12",
-    "slug": "amanda-knox"
+    "title": "The Prestige",
+    "description":
+      "Two friends and fellow magicians become bitter enemies after a sudden tragedy. As they devote themselves to this rivalry, they make sacrifices that bring them fame but with terrible consequences.",
+    "genre": "drama",
+    "maturity": "15",
+    "type": "films",
+    "slug": "the-prestige"
 }
 
 ###
-DELETE http://localhost:5000/api/film/61162160197a1b0bb87ae75f
+DELETE http://localhost:5000/api/film/6116289725de8915fc731c4a

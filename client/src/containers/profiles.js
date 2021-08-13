@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Header, Profiles } from '../components';
 import * as ROUTES from '../constants/routes';
 import logo from '../logo.svg';
@@ -7,10 +7,9 @@ import { AuthContext } from '../contexts/AuthContext';
 export function SelectProfileContainer({ setProfile }) {
   const {
     authState: {
-      user: { username },
+      user: { username, photoURL },
     },
   } = useContext(AuthContext);
-  var photoURL = Math.floor(Math.random() * 5) + 1;
   return (
     <>
       <Header bg={false}>
@@ -20,7 +19,7 @@ export function SelectProfileContainer({ setProfile }) {
       </Header>
 
       <Profiles>
-        <Profiles.Title>Who's watching?</Profiles.Title>
+        <Profiles.Title>Ai đang xem?</Profiles.Title>
         <Profiles.List>
           <Profiles.User
             onClick={() =>

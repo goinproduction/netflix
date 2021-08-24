@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Browse } from './pages';
+import { Browse, Dashboard } from './pages';
 import ProtectedRoute from './components/routing/ProtectedRoute';
 import AuthContextProvider from './contexts/AuthContext';
 import FilmContextProvider from './contexts/FilmContext';
@@ -27,6 +27,7 @@ export function App() {
               path="/"
               render={(props) => <Auth {...props} authRoute="/" />}
             />
+            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
             <ProtectedRoute exact path="/browse" component={Browse} />
           </Switch>
         </Router>

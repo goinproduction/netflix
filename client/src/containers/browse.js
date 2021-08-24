@@ -79,6 +79,11 @@ export function BrowseContainer({ slides }) {
                     Đăng xuất
                   </Header.TextLink>
                 </Header.Group>
+                <Header.Group>
+                  <Header.TextLink onClick={() => logoutUser()}>
+                    Cập nhật danh sách phim
+                  </Header.TextLink>
+                </Header.Group>
               </Header.Dropdown>
             </Header.Profile>
           </Header.Group>

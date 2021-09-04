@@ -22,6 +22,8 @@
             <li>Node.js</li>
             <li>Express.js</li>
             <li>MongoDB</li>
+            <li>JWT</li>
+            <li>Argon</li>
         </ol>
     </li>
 </ul>

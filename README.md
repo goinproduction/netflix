@@ -34,5 +34,3 @@
 <img src="/client/public/images/screenshot/signup.png" alt="signup">
 <h3>Ai đang xem</h3>
 <img src="/client/public/images/screenshot/who.png" alt="who">
-<h3>Đăng nhập</h3>
-<img src="/client/public/images/screenshot/signin.png" alt="signin">

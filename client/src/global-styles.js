@@ -12,4 +12,20 @@ export const GlobalStyles = createGlobalStyle`
     background-color: #000000;
     color: #333333;
     font-size: 16px;
-}`;
+}
+  .film-title{
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .form{
+    display: flex;
+    flex-direction: column;
+    color: white;
+    align-items: center;
+  }
+  .form-group{
+    width: 450px;
+  }
+`;

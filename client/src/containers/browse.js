@@ -46,6 +46,7 @@ export function BrowseContainer({ slides }) {
   const handleRedirectToDashboard = () => {
     history.push('/dashboard');
   };
+
   return username ? (
     <>
       {loading ? <Loading src={photoURL} /> : <Loading.ReleaseBody />}
@@ -116,7 +117,7 @@ export function BrowseContainer({ slides }) {
             <Card.Title>{slideItem.title}</Card.Title>
             <Card.Entities>
               {slideItem.data.map((item) => (
-                <Card.Item key={item.docId} item={item}>
+                <Card.Item key={item._id} item={item}>
                   <Card.Image
                     src={`/images/${category}/${item.genre}/${item.slug}/small.jpg`}
                   />

@@ -17,12 +17,28 @@ class FilmController {
         }
     }
 
-    // @route POST api/films
+    // @route GET api/films
     // @desc Get films
     // @access public
     async getFilms(req, res) {
         try {
             const films = await Film.find({ type: 'films' });
+            res.json({ success: true, films });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                success: 'false',
+                message: 'Internal server error',
+            });
+        }
+    }
+
+    // @route GET api/all
+    // @desc Get all
+    // @access public
+    async getAll(req, res) {
+        try {
+            const films = await Film.find({});
             res.json({ success: true, films });
         } catch (error) {
             console.log(error);

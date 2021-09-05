@@ -6,6 +6,7 @@ import logo from '../logo.svg';
 import { SelectProfileContainer } from './profiles';
 import { FooterContainer } from './footer';
 import { AuthContext } from '../contexts/AuthContext';
+import { useHistory } from 'react-router-dom';
 
 export function BrowseContainer({ slides }) {
   const [category, setCategory] = useState('series');
@@ -41,6 +42,10 @@ export function BrowseContainer({ slides }) {
       setSlideRows(slides[category]);
     }
   }, [searchTerm]);
+  const history = useHistory();
+  const handleRedirectToDashboard = () => {
+    history.push('/dashboard');
+  };
   return username ? (
     <>
       {loading ? <Loading src={photoURL} /> : <Loading.ReleaseBody />}
@@ -80,7 +85,9 @@ export function BrowseContainer({ slides }) {
                   </Header.TextLink>
                 </Header.Group>
                 <Header.Group>
-                  <Header.TextLink onClick={() => logoutUser()}>
+                  <Header.TextLink
+                    onClick={handleRedirectToDashboard.bind(this)}
+                  >
                     Cập nhật danh sách phim
                   </Header.TextLink>
                 </Header.Group>

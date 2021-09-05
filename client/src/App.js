@@ -14,6 +14,11 @@ export function App() {
           <Switch>
             <Route
               exact
+              path="/"
+              render={(props) => <Auth {...props} authRoute="/" />}
+            />
+            <Route
+              exact
               path="/signin"
               render={(props) => <Auth {...props} authRoute="signin" />}
             />
@@ -22,13 +27,8 @@ export function App() {
               path="/signup"
               render={(props) => <Auth {...props} authRoute="signup" />}
             />
-            <Route
-              exact
-              path="/"
-              render={(props) => <Auth {...props} authRoute="/" />}
-            />
-            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-            <ProtectedRoute exact path="/browse" component={Browse} />
+            <ProtectedRoute path="/dashboard" component={Dashboard} />
+            <ProtectedRoute path="/browse" component={Browse} />
           </Switch>
         </Router>
       </FilmContextProvider>

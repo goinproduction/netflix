@@ -84,6 +84,14 @@ export default function Dashboard() {
     }
     setActive('filmList');
     setId('');
+    setFilm({
+      title: '',
+      description: '',
+      genre: '',
+      maturity: '',
+      slug: '',
+      type: '',
+    });
   };
 
   // Redirect

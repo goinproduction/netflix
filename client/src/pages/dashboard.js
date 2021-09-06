@@ -21,7 +21,7 @@ export default function Dashboard() {
   } = useContext(AuthContext);
   // state
   const [active, setActive] = useState('filmList');
-  const [id, getId] = useState('');
+  const [id, setId] = useState('');
 
   const [film, setFilm] = useState({
     title: '',
@@ -48,14 +48,15 @@ export default function Dashboard() {
     filmState: { all },
     getAll,
     addFilm,
-    deleteFilm
+    deleteFilm,
+    updateFilm,
   } = useContext(FilmContext);
   useEffect(() => {
     getAll();
   }, []);
 
   const getID = (e) => {
-    getId(e.target.value);
+    setId(e.target.value);
   };
 
   const handleAddFilm = (event) => {
@@ -74,19 +75,14 @@ export default function Dashboard() {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    
-    if(typeSubmit === 'delete'){
+
+    if (typeSubmit === 'delete') {
       deleteFilm(id);
+    } else if (typeSubmit === 'update') {
+      updateFilm(id, film);
     }
     setActive('filmList');
-    setFilm({
-      title: '',
-      description: '',
-      genre: '',
-      maturity: '',
-      slug: '',
-      type: '',
-    });
+    setId('');
   };
   return (
     <>

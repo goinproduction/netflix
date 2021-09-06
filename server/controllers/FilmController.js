@@ -128,7 +128,7 @@ class FilmController {
             const condition = {
                 _id: req.params.id,
             };
-            filmUpdate = await Film.findOneAndUpdate(condition);
+            filmUpdate = await Film.findOneAndUpdate(condition, filmUpdate, {new: true});
             if (!filmUpdate) {
                 return res.status(401).json({
                     success: false,

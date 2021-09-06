@@ -45,6 +45,22 @@ export const FilmReducer = (state, action) => {
         series: state.series.filter((item) => item._id !== payload),
         films: state.films.filter((item) => item._id !== payload),
       };
+    case UPDATE_FILM:
+      const newAll = state.all.map((item) =>
+        item._id === payload._id ? payload : item
+      );
+      const newFilm = state.films.map((film) =>
+        film._id === payload._id ? payload : film
+      );
+      const newSeries = state.series.map((ss) =>
+        ss._id === payload._id ? payload : ss
+      );
+      return {
+        ...state,
+        all: newAll,
+        films: newFilm,
+        series: newSeries,
+      };
     default:
       return state;
   }

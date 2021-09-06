@@ -98,6 +98,19 @@ const FilmContextProvider = ({ children }) => {
       console.log(error);
     }
   };
+  const updateFilm = async (filmId, filmUpdate) => {
+    try {
+      const response = await axios.put(`${API_URL}/film/${filmId}`, filmUpdate);
+      if (response.data.success) {
+        dispatch({
+          type: UPDATE_FILM,
+          payload: filmUpdate,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const filmContextData = {
     filmState,
     getFilms,
@@ -105,6 +118,7 @@ const FilmContextProvider = ({ children }) => {
     getAll,
     addFilm,
     deleteFilm,
+    updateFilm
   };
   return (
     <FilmContext.Provider value={filmContextData}>

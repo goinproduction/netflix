@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 export default function Dashboard() {
   const {
     authState: {
-      user: { username, photoURL },
+      user: { photoURL },
     },
     logoutUser,
   } = useContext(AuthContext);
@@ -34,15 +34,9 @@ export default function Dashboard() {
   });
   const [typeSubmit, setTypeSubmit] = useState('');
   const { title, description, genre, maturity, slug, type } = film;
-
   const onInputChange = (event) => {
     setFilm({ ...film, [event.target.name]: event.target.value });
   };
-
-  // handle default input value
-  useEffect(() => {
-    all.map((item) => (item._id == id ? setFilm(item) : null));
-  }, [id]);
 
   // context
   const {
@@ -52,9 +46,15 @@ export default function Dashboard() {
     deleteFilm,
     updateFilm,
   } = useContext(FilmContext);
+
   useEffect(() => {
     getAll();
   }, []);
+
+  // handle default input value
+  useEffect(() => {
+    all.map((item) => (item._id == id ? setFilm(item) : null));
+  }, [id]);
 
   const getID = (e) => {
     setId(e.target.value);
@@ -91,6 +91,14 @@ export default function Dashboard() {
   const handleRedirectToBrowse = () => {
     history.push('/browse');
   };
+  // Validate ID
+  const idValidate = () => {
+    return film.title === ''
+      ? 'ID không hợp lệ, vui lòng kiểm tra lại.'
+      : undefined;
+  };
+  var idValidated = idValidate();
+  console.log(idValidated);
   return (
     <>
       <Header>
@@ -239,6 +247,9 @@ export default function Dashboard() {
               <Form.Group className="form-group my-3">
                 <Form.Label>Nhập ID</Form.Label>
                 <Form.Control type="text" placeholder="ID" onChange={getID} />
+                {idValidated !== undefined && id !== '' ? (
+                  <p className="error-message">{idValidated}</p>
+                ) : null}
               </Form.Group>
               {all.map((item) =>
                 item._id === id ? (

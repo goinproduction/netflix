@@ -28,4 +28,9 @@ export const GlobalStyles = createGlobalStyle`
   .form-group{
     width: 450px;
   }
+  .error-message{
+    color: #e87c03;
+    font-size: 13px;
+    margin-top: 5px;
+  }
 `;

@@ -83,12 +83,28 @@ const FilmContextProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  // Delete film
+  const deleteFilm = async (filmId) => {
+    try {
+      const response = await axios.delete(`${API_URL}/film/${filmId}`);
+      if (response.data.success) {
+        dispatch({
+          type: DELETE_FILM,
+          payload: filmId,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const filmContextData = {
     filmState,
     getFilms,
     getSeries,
     getAll,
     addFilm,
+    deleteFilm,
   };
   return (
     <FilmContext.Provider value={filmContextData}>

@@ -114,6 +114,43 @@ class FilmController {
     // @route DELETE api/posts
     // @desc Delete film
     // @access Private
+    async updateFilm(req, res) {
+        const { title, description, genre, maturity, slug, type } = req.body;
+        try {
+            let filmUpdate = {
+                title,
+                description,
+                genre,
+                maturity,
+                slug,
+                type,
+            };
+            const condition = {
+                _id: req.params.id,
+            };
+            filmUpdate = await Film.findOneAndUpdate(condition);
+            if (!filmUpdate) {
+                return res.status(401).json({
+                    success: false,
+                    message: 'Film not found',
+                });
+            }
+            res.json({
+                success: true,
+                message: 'Film updated successfully',
+                film: filmUpdate,
+            });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({
+                message: 'Internal server error',
+                success: 'false',
+            });
+        }
+    }
+    // @route DELETE api/posts
+    // @desc Delete film
+    // @access Private
     async deleteFilm(req, res) {
         try {
             const condition = {
@@ -129,7 +166,7 @@ class FilmController {
             res.json({
                 success: true,
                 message: 'Film deleted successfully',
-                post: deleteFilm,
+                film: deleteFilm,
             });
         } catch (error) {
             console.log(error);

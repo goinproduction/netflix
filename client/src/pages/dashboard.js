@@ -37,16 +37,18 @@ export default function Dashboard() {
   const onInputChange = (event) => {
     setFilm({ ...film, [event.target.name]: event.target.value });
   };
-  // effect
+
+  // handle default input value
   useEffect(() => {
     all.map((item) => (item._id == id ? setFilm(item) : null));
   }, [id]);
-  
+
   // context
   const {
     filmState: { all },
     getAll,
     addFilm,
+    deleteFilm
   } = useContext(FilmContext);
   useEffect(() => {
     getAll();
@@ -72,8 +74,19 @@ export default function Dashboard() {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-    console.log(typeSubmit);
-    console.log(film);
+    
+    if(typeSubmit === 'delete'){
+      deleteFilm(id);
+    }
+    setActive('filmList');
+    setFilm({
+      title: '',
+      description: '',
+      genre: '',
+      maturity: '',
+      slug: '',
+      type: '',
+    });
   };
   return (
     <>

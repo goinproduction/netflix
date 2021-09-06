@@ -38,6 +38,13 @@ export const FilmReducer = (state, action) => {
             ? [...state.films, payload]
             : [...state.films],
       };
+    case DELETE_FILM:
+      return {
+        ...state,
+        all: state.all.filter((item) => item._id !== payload),
+        series: state.series.filter((item) => item._id !== payload),
+        films: state.films.filter((item) => item._id !== payload),
+      };
     default:
       return state;
   }

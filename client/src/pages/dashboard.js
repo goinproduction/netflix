@@ -14,31 +14,14 @@ import Col from 'react-bootstrap/Col';
 import { useHistory } from 'react-router-dom';
 
 export default function Dashboard() {
+  // CONTEXT
   const {
     authState: {
       user: { photoURL },
     },
     logoutUser,
   } = useContext(AuthContext);
-  // state
-  const [active, setActive] = useState('filmList');
-  const [id, setId] = useState('');
 
-  const [film, setFilm] = useState({
-    title: '',
-    description: '',
-    genre: '',
-    maturity: '',
-    slug: '',
-    type: '',
-  });
-  const [typeSubmit, setTypeSubmit] = useState('');
-  const { title, description, genre, maturity, slug, type } = film;
-  const onInputChange = (event) => {
-    setFilm({ ...film, [event.target.name]: event.target.value });
-  };
-
-  // context
   const {
     filmState: { all },
     getAll,
@@ -47,15 +30,37 @@ export default function Dashboard() {
     updateFilm,
   } = useContext(FilmContext);
 
+  // STATE
+  const history = useHistory();
+  const [typeSubmit, setTypeSubmit] = useState('');
+  const [active, setActive] = useState('filmList');
+  const [id, setId] = useState('');
+  const [film, setFilm] = useState({
+    title: '',
+    description: '',
+    genre: '',
+    maturity: '',
+    slug: '',
+    type: '',
+  });
+
+  // DESTRUCTURING
+  const { title, description, genre, maturity, slug, type } = film;
+
+  const onInputChange = (event) => {
+    setFilm({ ...film, [event.target.name]: event.target.value });
+  };
+
+  // USEEFFECT
   useEffect(() => {
     getAll();
   }, []);
 
-  // handle default input value
   useEffect(() => {
     all.map((item) => (item._id == id ? setFilm(item) : null));
   }, [id]);
 
+  // FUNCTIONS
   const getID = (e) => {
     setId(e.target.value);
   };
@@ -94,19 +99,17 @@ export default function Dashboard() {
     });
   };
 
-  // Redirect
-  const history = useHistory();
   const handleRedirectToBrowse = () => {
     history.push('/browse');
   };
-  // Validate ID
+
+  //@Validate ID
   const idValidate = () => {
     return film.title === ''
       ? 'ID không hợp lệ, vui lòng kiểm tra lại.'
       : undefined;
   };
   var idValidated = idValidate();
-  console.log(idValidated);
   return (
     <>
       <Header>

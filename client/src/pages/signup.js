@@ -15,6 +15,26 @@ export default function SignUp() {
 
   const { username, password, confirmPassword } = registerForm;
 
+  function emailValidated(value) {
+    var regex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    return regex.test(value) || value.charAt(0) === '0'
+      ? undefined
+      : 'Vui lòng nhập email hoặc số điện thoại hợp lệ.';
+  }
+
+  function passWordValidated(value) {
+    return value.length >= 4 && value.length <= 60
+      ? undefined
+      : 'Mật khẩu của bạn phải chứa từ 4 đến 60 ký tự.';
+  }
+
+  function confirmPasswordValidated(value) {
+    return value !== password
+      ? 'Mật khẩu chưa khớp, vui lòng kiểm tra lại.'
+      : undefined;
+  }
+
   const onChangeRegisterForm = (event) =>
     setRegisterForm({
       ...registerForm,
@@ -38,6 +58,12 @@ export default function SignUp() {
       console.log(error);
     }
   };
+  var id = emailValidated(username);
+  var pw = passWordValidated(password);
+  var cpw =
+    confirmPasswordValidated(confirmPassword) ||
+    passWordValidated(confirmPassword);
+  const isInvalid = id !== undefined || pw !== undefined || cpw !== undefined;
   return (
     <>
       <HeaderContainer>
@@ -56,8 +82,12 @@ export default function SignUp() {
                 placeholder="Địa chỉ email"
                 value={username}
                 name="username"
+                type="email"
                 onChange={onChangeRegisterForm}
               />
+              {id !== undefined && username !== '' ? (
+                <Form.InputError>{id}</Form.InputError>
+              ) : null}
             </Form.WrapInput>
             <Form.WrapInput>
               <Form.Input
@@ -68,6 +98,9 @@ export default function SignUp() {
                 placeholder="Mật khẩu"
                 onChange={onChangeRegisterForm}
               />
+              {pw !== undefined && password !== '' ? (
+                <Form.InputError>{pw}</Form.InputError>
+              ) : null}
             </Form.WrapInput>
             <Form.WrapInput>
               <Form.Input
@@ -78,8 +111,15 @@ export default function SignUp() {
                 placeholder="Mật khẩu"
                 onChange={onChangeRegisterForm}
               />
+              {cpw !== undefined && confirmPassword !== '' ? (
+                <Form.InputError>{cpw}</Form.InputError>
+              ) : null}
             </Form.WrapInput>
-            <Form.Submit type="submit" data-testid="sign-up">
+            <Form.Submit
+              type="submit"
+              data-testid="sign-up"
+              disabled={isInvalid}
+            >
               Đăng ký
             </Form.Submit>
           </Form.Base>

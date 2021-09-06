@@ -2,6 +2,7 @@
 <ul>
     <li>Đăng ký</li>
     <li>Đăng nhập</li>
+    <li>Tìm kiếm</li>
     <li>Quản lý danh sách phim</li>
 </ul>
 <h1>Công nghệ đã sử dụng</h1>
@@ -36,3 +37,12 @@
 <img src="/client/public/images/screenshot/signup.png" alt="signup">
 <h3>Ai đang xem</h3>
 <img src="/client/public/images/screenshot/who.png" alt="who">
+<h3>Trang phim</h3>
+<img src="/client/public/images/screenshot/browse.png" alt="browse">
+<h3>Danh sách phim</h3>
+<img src="/client/public/images/screenshot/filmmanager.png" alt="filmmanager">
+<h3>Thêm mới phim</h3>
+<img src="/client/public/images/screenshot/newfilm.png" alt="newfilm">
+<h3>Cập nhật, xóa phim</h3>
+<img src="/client/public/images/screenshot/update.png" alt="update">
+<img src="/client/public/images/screenshot/updatee.png" alt="update2">

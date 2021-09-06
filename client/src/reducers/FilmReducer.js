@@ -5,6 +5,9 @@ import {
   SERIES_LOADED_FAIL,
   ALL_LOADED_SUCCESS,
   ALL_LOADED_FAIL,
+  ADD_FILM,
+  DELETE_FILM,
+  UPDATE_FILM,
 } from '../constants/routes';
 
 export const FilmReducer = (state, action) => {
@@ -22,6 +25,19 @@ export const FilmReducer = (state, action) => {
       return { ...state, all: payload };
     case ALL_LOADED_FAIL:
       return { ...state, all: [] };
+    case ADD_FILM:
+      return {
+        ...state,
+        all: [...state.all, payload],
+        series:
+          payload.type === 'series'
+            ? [...state.series, payload]
+            : [...state.series],
+        films:
+          payload.type === 'films'
+            ? [...state.films, payload]
+            : [...state.films],
+      };
     default:
       return state;
   }

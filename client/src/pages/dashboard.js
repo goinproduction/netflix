@@ -23,10 +23,30 @@ export default function Dashboard() {
   const [active, setActive] = useState('filmList');
   const [id, getId] = useState('');
 
+  const [film, setFilm] = useState({
+    title: '',
+    description: '',
+    genre: '',
+    maturity: '',
+    slug: '',
+    type: '',
+  });
+  const [typeSubmit, setTypeSubmit] = useState('');
+  const { title, description, genre, maturity, slug, type } = film;
+
+  const onInputChange = (event) => {
+    setFilm({ ...film, [event.target.name]: event.target.value });
+  };
+  // effect
+  useEffect(() => {
+    all.map((item) => (item._id == id ? setFilm(item) : null));
+  }, [id]);
+  
   // context
   const {
     filmState: { all },
     getAll,
+    addFilm,
   } = useContext(FilmContext);
   useEffect(() => {
     getAll();
@@ -34,6 +54,26 @@ export default function Dashboard() {
 
   const getID = (e) => {
     getId(e.target.value);
+  };
+
+  const handleAddFilm = (event) => {
+    event.preventDefault();
+    addFilm(film);
+    setActive('filmList');
+    setFilm({
+      title: '',
+      description: '',
+      genre: '',
+      maturity: '',
+      slug: '',
+      type: '',
+    });
+  };
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    console.log(typeSubmit);
+    console.log(film);
   };
   return (
     <>
@@ -92,6 +132,9 @@ export default function Dashboard() {
                       <Card.Title>{item.title}</Card.Title>
                       <Card.Text>{item.description}</Card.Text>
                     </Card.Body>
+                    <Card.Footer className="text-muted">
+                      ID: {item._id}
+                    </Card.Footer>
                   </Card>
                 </Col>
               ))}
@@ -102,31 +145,67 @@ export default function Dashboard() {
         {active === 'newFilm' ? (
           <>
             <h1 className="film-title">Thêm phim mới</h1>
-            <Form className="form">
+            <Form className="form" onSubmit={handleAddFilm}>
               <Form.Group className="form-group">
-                <Form.Control type="text" placeholder="Tên" />
+                <Form.Control
+                  type="text"
+                  name="title"
+                  placeholder="Tên"
+                  value={title}
+                  onChange={onInputChange}
+                />
               </Form.Group>
               <Form.Group className="mb-3 mt-3">
                 <Form.Control
                   as="textarea"
+                  name="description"
                   placeholder="Mô tả"
                   style={{ height: '100px' }}
+                  value={description}
+                  onChange={onInputChange}
                 />
               </Form.Group>
               <Form.Group className="mb-3 mt-1 mt-1">
-                <Form.Control type="text" placeholder="Thể loại" />
+                <Form.Control
+                  type="text"
+                  name="genre"
+                  placeholder="Thể loại"
+                  value={genre}
+                  onChange={onInputChange}
+                />
               </Form.Group>
               <Form.Group className="mb-3 mt-1 mt-1">
-                <Form.Control type="text" placeholder="Giới hạn" />
+                <Form.Control
+                  type="number"
+                  name="maturity"
+                  placeholder="Giới hạn"
+                  value={maturity}
+                  onChange={onInputChange}
+                />
               </Form.Group>
               <Form.Group className="form-group mb-3 mt-1">
-                <Form.Control type="text" placeholder="Hình ảnh" />
+                <Form.Control
+                  type="text"
+                  name="slug"
+                  placeholder="Hình ảnh"
+                  value={slug}
+                  onChange={onInputChange}
+                />
               </Form.Group>
               <Form.Group className="form-group mb-3 mt-1">
                 <Form.Label>Phân loại</Form.Label>
-                <Form.Control as="select" style={{ width: '200px' }}>
-                  <option value="red">Films</option>
-                  <option value="blue">Series</option>
+                <Form.Control
+                  as="select"
+                  style={{ width: '200px' }}
+                  name="type"
+                  value={type}
+                  onChange={onInputChange}
+                >
+                  <option value="" disabled>
+                    Phân loại
+                  </option>
+                  <option value="films">Films</option>
+                  <option value="series">Series</option>
                 </Form.Control>
               </Form.Group>
               <Button variant="success" className="my-4" type="submit">
@@ -139,7 +218,7 @@ export default function Dashboard() {
         {active === 'updateFilm' ? (
           <>
             <h1 className="film-title">Cập nhật phim</h1>
-            <Form className="form">
+            <Form className="form" onSubmit={handleUpdate}>
               <Form.Group className="form-group my-3">
                 <Form.Label>Nhập ID</Form.Label>
                 <Form.Control type="text" placeholder="ID" onChange={getID} />
@@ -148,35 +227,65 @@ export default function Dashboard() {
                 item._id === id ? (
                   <Fragment key={item._id}>
                     <Form.Group className="form-group mb-3 mt-3">
-                      <Form.Control type="text" value={item.title} />
+                      <Form.Control
+                        type="text"
+                        name="title"
+                        value={title}
+                        onChange={onInputChange}
+                      />
                     </Form.Group>
                     <Form.Group className="mb-3 mt-1 mt-1">
                       <Form.Control
                         as="textarea"
                         style={{ height: '100px' }}
-                        value={item.description}
+                        name="description"
+                        value={description}
+                        onChange={onInputChange}
                       />
                     </Form.Group>
                     <Form.Group className="mb-3 mt-1 mt-1">
-                      <Form.Control type="text" value={item.genre} />
+                      <Form.Control
+                        type="text"
+                        name="genre"
+                        value={genre}
+                        onChange={onInputChange}
+                      />
                     </Form.Group>
                     <Form.Group className="mb-3 mt-1 mt-1">
-                      <Form.Control type="text" value={item.maturity} />
+                      <Form.Control
+                        type="number"
+                        name="maturity"
+                        value={maturity}
+                        onChange={onInputChange}
+                      />
                     </Form.Group>
                     <Form.Group className="form-group mb-3 mt-1">
-                      <Form.Control type="text" value={item.slug} />
+                      <Form.Control
+                        type="text"
+                        name="slug"
+                        value={slug}
+                        onChange={onInputChange}
+                      />
                     </Form.Group>
                     <Form.Group className="form-group mb-3 mt-1">
                       <Form.Label>Phân loại</Form.Label>
-                      <Form.Control as="select" style={{ width: '200px' }}></Form.Control>
-                        <option value="Films">Films</option>
-                        <option value="Series">Series</option>
+                      <Form.Control
+                        as="select"
+                        name="type"
+                        style={{ width: '200px' }}
+                        value={type}
+                        onChange={onInputChange}
+                      >
+                        <option value="films">Films</option>
+                        <option value="series">Series</option>
                       </Form.Control>
                     </Form.Group>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <Button
                         variant="danger"
                         className="my-4 me-3"
+                        name="delete"
+                        onClick={() => setTypeSubmit('delete')}
                         type="submit"
                       >
                         XÓA PHIM
@@ -185,6 +294,8 @@ export default function Dashboard() {
                         variant="success"
                         className="my-4 ms-3"
                         type="submit"
+                        name="update"
+                        onClick={() => setTypeSubmit('update')}
                       >
                         CẬP NHẬT PHIM
                       </Button>

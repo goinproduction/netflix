@@ -77,13 +77,7 @@ export function BrowseContainer({ slides }) {
               <Header.Picture src={photoURL} />
               <Header.Dropdown>
                 <Header.Group>
-                  <Header.Picture src={photoURL} />
-                  <Header.TextLink>{username}</Header.TextLink>
-                </Header.Group>
-                <Header.Group>
-                  <Header.TextLink
-                    onClick={handleRedirectToDashboard.bind(this)}
-                  >
+                  <Header.TextLink onClick={handleRedirectToDashboard}>
                     Quản lý phim
                   </Header.TextLink>
                 </Header.Group>

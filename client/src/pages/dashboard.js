@@ -11,6 +11,7 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useHistory } from 'react-router-dom';
 
 export default function Dashboard() {
   const {
@@ -84,6 +85,12 @@ export default function Dashboard() {
     setActive('filmList');
     setId('');
   };
+
+  // Redirect
+  const history = useHistory();
+  const handleRedirectToBrowse = () => {
+    history.push('/browse');
+  };
   return (
     <>
       <Header>
@@ -114,8 +121,9 @@ export default function Dashboard() {
               <Header.Picture src={photoURL} />
               <Header.Dropdown>
                 <Header.Group>
-                  <Header.Picture src={photoURL} />
-                  <Header.TextLink>{username}</Header.TextLink>
+                  <Header.TextLink onClick={handleRedirectToBrowse}>
+                    Trang chủ
+                  </Header.TextLink>
                 </Header.Group>
                 <Header.Group>
                   <Header.TextLink onClick={() => logoutUser()}>

@@ -43,12 +43,6 @@ export default function SignUp() {
 
   const handleSignup = async (event) => {
     event.preventDefault();
-
-    if (password !== confirmPassword) {
-      setError('Password does not match');
-      return;
-    }
-
     try {
       const registerData = await registerUser(registerForm);
       if (!registerData.success) {

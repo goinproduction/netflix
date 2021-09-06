@@ -11,7 +11,19 @@ export default function SignIn() {
     username: '',
     password: '',
   });
+  function emailValidated(value) {
+    var regex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    return regex.test(value) || value.charAt(0) === '0'
+      ? undefined
+      : 'Vui lòng nhập email hoặc số điện thoại hợp lệ.';
+  }
 
+  function passWordValidated(value) {
+    return value.length >= 4 && value.length <= 60
+      ? undefined
+      : 'Mật khẩu của bạn phải chứa từ 4 đến 60 ký tự.';
+  }
   const onChangeLoginForm = (event) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
 
@@ -27,6 +39,9 @@ export default function SignIn() {
       console.log(error);
     }
   };
+  var id = emailValidated(username);
+  var pw = passWordValidated(password);
+  const isInvalid = id !== undefined || pw !== undefined;
   return (
     <>
       <HeaderContainer>
@@ -44,6 +59,9 @@ export default function SignIn() {
                 value={username}
                 onChange={onChangeLoginForm}
               />
+              {id !== undefined && username !== '' ? (
+                <Form.InputError>{id}</Form.InputError>
+              ) : null}
             </Form.WrapInput>
             <Form.WrapInput>
               <Form.Input
@@ -54,11 +72,15 @@ export default function SignIn() {
                 placeholder="Mật khẩu"
                 onChange={onChangeLoginForm}
               />
+              {pw !== undefined && password !== '' ? (
+                <Form.InputError>{pw}</Form.InputError>
+              ) : null}
             </Form.WrapInput>
 
             <Form.Submit
               type="submit"
               data-testid="sign-in"
+              disabled={isInvalid}
             >
               Đăng nhập
             </Form.Submit>

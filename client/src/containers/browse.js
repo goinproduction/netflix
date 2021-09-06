@@ -81,15 +81,15 @@ export function BrowseContainer({ slides }) {
                   <Header.TextLink>{username}</Header.TextLink>
                 </Header.Group>
                 <Header.Group>
-                  <Header.TextLink onClick={() => logoutUser()}>
-                    Đăng xuất
-                  </Header.TextLink>
-                </Header.Group>
-                <Header.Group>
                   <Header.TextLink
                     onClick={handleRedirectToDashboard.bind(this)}
                   >
-                    Cập nhật danh sách phim
+                    Quản lý phim
+                  </Header.TextLink>
+                </Header.Group>
+                <Header.Group>
+                  <Header.TextLink onClick={() => logoutUser()}>
+                    Đăng xuất
                   </Header.TextLink>
                 </Header.Group>
               </Header.Dropdown>

@@ -151,7 +151,7 @@ export const Picture = styled.button`
   width: 32px;
   height: 32px;
   cursor: pointer;
-  border-radius: 50%;
+  border-radius: 5px;
 `;
 
 export const Dropdown = styled.div`
